@@ -1,0 +1,26 @@
+name: BootCampClass1
+
+on:
+  push:
+    branches: [ master ]
+  
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Node
+      uses: actions/setup-node@v2-beta
+      with:
+        node-version: 12
+    - name: Installing Surge
+      run: npm install --global surge
+    - name: Deploying using surge
+      run: surge ./ halting-edge.surge.sh --token ${{secrets.TOKEN}}
+        
+        
+        docker run \
+        -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
+        jekyll/builder:latest /bin/bash -c "chmod 777 /srv/jekyll && jekyll build --future"
